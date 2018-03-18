@@ -10,22 +10,23 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 	$scope.userId = "5741973edcba0f4c11278925";
 	var cpt = 0;
 	console.log("hostname : " + window.location.hostname);
-	var socket = io.connect(window.location.hostname);
-	//var socket = io.connect("http://localhost:3000");
-	socket.emit('get user map' , $scope.userId, "BaladeGroumande")
+	//var socket = io.connect(window.location.hostname);
+	var socket = io.connect("http://localhost:3000");
+	socket.emit('get map' , "BaladeGroumande")
 	
 	socket.on('getItems', function(message) {
 		alert('Le serveur a un message pour vous : ' + message);
 	})
+
 
 	var drawnItems = new L.FeatureGroup();
 
 	angular.extend($scope, {
 		savedItems:[],
 		center: {
-			lat: 46.833056,
-			lng: 6.65,
-			zoom: 13
+			lat: 46.839,
+			lng: 6.671,
+			zoom: 14
 		},
 
 		layers: {
@@ -35,7 +36,6 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 					url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 					type: 'xyz'
 				},
-
 				other: {
 					name: 'Forêt',
 					url: 'http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png',
@@ -99,8 +99,15 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 					// },
 					onEachFeature: function (feature, layer) {
 						if(feature.geometry.type == "Point"){
-							var popupContent =  '<strong>' + feature.properties.title + '</strong><dl><dd>' + feature.properties.message + '<dd></dl>'
+							var popupContent =  '<strong>' + (feature.properties.title ? feature.properties.title : "Poste") + '</strong><dl><dd>' + 
+							(feature.properties.message ? feature.properties.message : "") + '<dd></dl>';
 							layer.bindPopup(popupContent);
+							layer.on('mouseover', function (e) {
+								this.openPopup();
+							});
+							layer.on('mouseout', function (e) {
+								this.closePopup();
+							});
 							var markerStyle = {
 								icon: feature.properties.icon,
 								markerColor: feature.properties.markerColor};
@@ -110,8 +117,8 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 
 							if(feature.geometry.type == "LineString"){
 								layer.setStyle({
-									"color": "#e049e3", //#e049e3 #ff7800
-									"weight": 4,
+									"color": "#0652DD", //#e049e3 #ff7800
+									"weight": 5,
 									"opacity": 0.8
 								});
 
