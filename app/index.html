@@ -1,0 +1,45 @@
+<!doctype html>
+<html class="no-js" ng-app="mapEditor" >
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <script src="bower_components/socket.io-client/socket.io.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/angular-ui-router-styles/ui-router-styles.js"></script>
+    <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+    <script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="bower_components/leaflet-draw/dist/leaflet.draw-src.js"></script>
+    <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+    <script src="bower_components/Leaflet.label/dist/leaflet.label.js"></script>
+
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/map.js"></script>
+    <script src="scripts/controllers/editor.js"></script>
+
+    <link rel="stylesheet" href="styles/initMap.css" />
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="bower_components/Leaflet.label/dist/leaflet.label.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/leaflet-draw/dist/leaflet.draw.css" />
+    <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
+    
+</head>
+<body ui-router-styles>
+
+    <div id="fullScreen"ui-view></div>
+</body>
+</html>
