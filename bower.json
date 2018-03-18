@@ -16,7 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "^1.4.0",
+    "angular": "1.4.0",
     "bootstrap": "3.1.1",
     "grunt-cli": "^1.2.0",
     "angular-leaflet-directive": "angular-leaflet#*",
@@ -32,5 +32,8 @@
     "angular-ui-router-styles": "1.1.0",
     "angular-simple-logger": "0.1.7",
     "Ionicons": "ionicons#^2.0.1"
-  }
+  },
+  "resolutions": {
+    "angular": "1.2.16"
+  }  
 }
