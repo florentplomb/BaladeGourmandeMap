@@ -15,6 +15,11 @@
   'uiRouterStyles'
   ]);
 
+
+  appMap.config(['$locationProvider', function($locationProvider) {
+        $locationProvider.hashPrefix('');
+    }]);
+
  appMap.config(function($stateProvider, $urlRouterProvider) {  
    //
   // For any unmatched url, redirect to /state1
