@@ -10,8 +10,8 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 	$scope.userId = "5741973edcba0f4c11278925";
 	var cpt = 0;
 	console.log("hostname : " + window.location.hostname);
-	//var socket = io.connect(window.location.hostname);
-	var socket = io.connect("http://localhost:3000");
+	var socket = io.connect(window.location.hostname);
+	//var socket = io.connect("http://localhost:3000");
 	socket.emit('get map' , "BaladeGroumande")
 	
 	socket.on('getItems', function(message) {
