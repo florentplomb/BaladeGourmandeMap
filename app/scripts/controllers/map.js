@@ -23,11 +23,28 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 
 	angular.extend($scope, {
 		savedItems:[],
-		center: {
-			lat: 46.839,
-			lng: 6.671,
-			zoom: 14
+		defaults: {
+	    minZoom: 12,
+			},
+			center: {
+				lat: 46.831,
+				lng: 6.67,
+				zoom :15
+			},
+	
+		maxbounds:{
+			southWest: {
+				lat: 46.82,
+				lng: 6.66
+			},
+			northEast: {
+				lat: 46.845,
+				lng: 6.68
+			}
+	
 		},
+
+
 
 		layers: {
 			baselayers: {
@@ -130,7 +147,7 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 					});
 
 			map.addLayer(geojsonLayer);
-			
+			map.fitBounds(geojsonLayer);
 		})
 
 
