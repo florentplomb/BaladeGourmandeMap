@@ -29,7 +29,7 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 			center: {
 				lat: 46.831,
 				lng: 6.67,
-				zoom :15
+				zoom :14
 			},
 	
 		maxbounds:{
