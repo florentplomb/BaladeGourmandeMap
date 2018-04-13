@@ -34,8 +34,8 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 	
 		maxbounds:{
 			southWest: {
-				lat: 46.83,
-				lng: 6.67
+				lat: 46.63,
+				lng: 6.47
 			},
 			northEast: {
 				lat: 46.85,
