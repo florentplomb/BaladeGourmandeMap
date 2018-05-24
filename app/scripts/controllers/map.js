@@ -114,6 +114,8 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 					// pointToLayer: function(feature, latlng) {
 					// 	return new L.CircleMarker(latlng, {radius: 10, fillOpacity: 0.85});
 					// },
+
+
 					onEachFeature: function (feature, layer) {
 						if(feature.geometry.type == "Point"){
 							var popupContent =  '<strong>' + (feature.properties.title ? feature.properties.title : "Poste") + '</strong><dl><dd>' + 
@@ -126,9 +128,14 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 								this.closePopup();
 							});
 							var markerStyle = {
-								icon: feature.properties.icon,
-								markerColor: feature.properties.markerColor};
+							/* 	icon: feature.properties.icon,
+								markerColor: feature.properties.markerColor */
+							icon: 'fa-number',
+							number: 12,
+							markerColor: 'blue',
+							};
 
+						
 								layer.setIcon(L.AwesomeMarkers.icon(markerStyle));
 							}
 
