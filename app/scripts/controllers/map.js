@@ -5,16 +5,16 @@
 var mapModule = angular.module('mapEditor');
 
 
-mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scope, leafletData, $http,$timeout) {
+mapModule.controller('MapCtrl', ["$scope", "leafletData", "$http", function ($scope, leafletData, $http, $timeout) {
 
 	$scope.userId = "5741973edcba0f4c11278925";
 	var cpt = 0;
 	console.log("hostname : " + window.location.hostname);
 	var socket = io.connect(window.location.hostname);
 	//var socket = io.connect("http://localhost:3000");
-	socket.emit('get map' , "BaladeGroumande")
-	
-	socket.on('getItems', function(message) {
+	socket.emit('get map', "BaladeGroumande")
+
+	socket.on('getItems', function (message) {
 		alert('Le serveur a un message pour vous : ' + message);
 	})
 
@@ -22,17 +22,17 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 	var drawnItems = new L.FeatureGroup();
 
 	angular.extend($scope, {
-		savedItems:[],
+		savedItems: [],
 		defaults: {
-	    minZoom: 12,
-			},
-			center: {
-				lat: 46.831,
-				lng: 6.67,
-				zoom :14
-			},
-	
-		maxbounds:{
+			minZoom: 12,
+		},
+		center: {
+			lat: 46.831,
+			lng: 6.67,
+			zoom: 14
+		},
+
+		maxbounds: {
 			southWest: {
 				lat: 46.63,
 				lng: 6.47
@@ -41,7 +41,7 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 				lat: 46.85,
 				lng: 6.69
 			}
-	
+
 		},
 
 
@@ -75,8 +75,8 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 
 
 
-	leafletData.getMap().then(function(map) {
-		
+	leafletData.getMap().then(function (map) {
+
 		map.invalidateSize();
 		L.AwesomeMarkers.Icon.prototype.options.prefix = 'ion';
 		var featureGroup = L.featureGroup().addTo(map);
@@ -103,83 +103,86 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 
 		}
 
-		socket.on('map',function(userMap){
+		socket.on('map', function (userMap) {
 
 			console.log(userMap.saveMap);
 
 			var geojson = userMap.saveMap[0].items;
-			
+
 			var geojsonLayer = L.geoJson(geojson, {
 
-					// pointToLayer: function(feature, latlng) {
-					// 	return new L.CircleMarker(latlng, {radius: 10, fillOpacity: 0.85});
-					// },
+				// pointToLayer: function(feature, latlng) {
+				// 	return new L.CircleMarker(latlng, {radius: 10, fillOpacity: 0.85});
+				// },
 
 
-					onEachFeature: function (feature, layer) {
-						if(feature.geometry.type == "Point"){
-							var popupContent =  '<strong>' + (feature.properties.title ? feature.properties.title : "Poste") + '</strong><dl><dd>' + 
+				onEachFeature: function (feature, layer) {
+					if (feature.geometry.type == "Point") {
+						var popupContent = '<strong>' + (feature.properties.title ? feature.properties.title : "Poste") + '</strong><dl><dd>' +
 							(feature.properties.message ? feature.properties.message : "") + '<dd></dl>';
-							layer.bindPopup(popupContent);
-							layer.on('mouseover', function (e) {
-								this.openPopup();
-							});
-							layer.on('mouseout', function (e) {
-								this.closePopup();
-							});
-						/* 	var markerStyle = {
+						layer.bindPopup(popupContent);
+						layer.on('mouseover', function (e) {
+							this.openPopup();
+						});
+						layer.on('mouseout', function (e) {
+							this.closePopup();
+						});
+
+						if (feature.properties.icon === "fa-number") {
+
+							var markerStyle = {
 								icon: feature.properties.icon,
-								markerColor: feature.properties.markerColor 
-							}; */
-
-							var redMarker = L.ExtraMarkers.icon({
-								icon: 'fa-number',
-								number: 12,
-								markerColor: 'red',
-							  });
-
-						
-							//	layer.setIcon(L.AwesomeMarkers.icon(markerStyle));
-								layer.setIcon(redMarker);
+								number: feature.properties.number,
+								markerColor: feature.properties.markerColor,
 							}
 
-							if(feature.geometry.type == "LineString"){
-								layer.setStyle({
-									"color": "#0652DD", //#e049e3 #ff7800
-									"weight": 5,
-									"opacity": 0.8
-								});
-
-								layer.bindLabel(feature.properties.distance +'km');
-							}
+							layer.setIcon(L.ExtraMarkers.icon(markerStyle));
+						} else {
+							var markerStyle = {
+								icon: feature.properties.icon,
+								markerColor: feature.properties.markerColor
+							};
+							layer.setIcon(L.AwesomeMarkers.icon(markerStyle));
 						}
+					}
+
+					if (feature.geometry.type == "LineString") {
+						layer.setStyle({
+							"color": "#0652DD", //#e049e3 #ff7800
+							"weight": 5,
+							"opacity": 0.8
+						});
+
+						layer.bindLabel(feature.properties.distance + 'km');
+					}
+				}
 
 
-					});
+			});
 
 			map.addLayer(geojsonLayer);
 			map.fitBounds(geojsonLayer);
 		})
 
 
-		map.on('draw:drawstart', function(e) {
+		map.on('draw:drawstart', function (e) {
 
 			$scope.radioMarkersChoice = $scope.markersStyle.wine;
 			$scope.marker = {};
 			var type = e.layerType,
-			layer = e.layer;
+				layer = e.layer;
 			if (type === 'marker') {
 				$scope.showNewMarker = true;
 			}
 		});
 
 		map.on('draw:created', drawCreated);
-		
+
 
 		function drawCreated(e) {
 
 			var type = e.layerType,
-			layer = e.layer;
+				layer = e.layer;
 
 			$scope.newMarker = e.layer.toGeoJSON();
 			$scope.marker.title = " ";
@@ -208,7 +211,7 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 
 				var tempLatLng = null;
 				var totalDistance = 0.00000;
-				$.each(e.layer._latlngs, function(i, latlng) {
+				$.each(e.layer._latlngs, function (i, latlng) {
 					if (tempLatLng == null) {
 						tempLatLng = latlng;
 						return;
@@ -223,10 +226,10 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 			}
 			featureGroup.addLayer(e.layer);
 			$scope.newMarker.properties.id = layer._leaflet_id;
-			
+
 			$scope.savedItems.push($scope.newMarker);
 			console.log($scope.savedItems);
-			socket.emit('itemsToSave', $scope.savedItems,$scope.userId);
+			socket.emit('itemsToSave', $scope.savedItems, $scope.userId);
 
 			//	console.log($scope.savedItems)
 			//featureGroup.clearLayers(); // Ca empeche de modifier le groupe de item créée
@@ -237,9 +240,9 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 
 
 
-		leafletData.getLayers().then(function(baselayers) {
+		leafletData.getLayers().then(function (baselayers) {
 			var drawnItems = baselayers.overlays.draw;
-			map.on('draw:created', function(e) {
+			map.on('draw:created', function (e) {
 				var layer = e.layer;
 				drawnItems.addLayer(layer);
 			});
