@@ -33,6 +33,7 @@ module.exports = function(config) {
       'app/bower_components/angular-ui-router/release/angular-ui-router.js',
       'app/bower_components/angular-ui-router-styles/ui-router-styles.js',
       'app/bower_components/angular-simple-logger/dist/angular-simple-logger.js',
+      'app/bower_components/Leaflet.extra-markers/src/assets/js/leaflet.extra-markers.js',
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',

@@ -127,16 +127,20 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData","$http", function($scop
 							layer.on('mouseout', function (e) {
 								this.closePopup();
 							});
-							var markerStyle = {
-							/* 	icon: feature.properties.icon,
-								markerColor: feature.properties.markerColor */
-							icon: 'fa-number',
-							number: 12,
-							markerColor: 'blue',
-							};
+						/* 	var markerStyle = {
+								icon: feature.properties.icon,
+								markerColor: feature.properties.markerColor 
+							}; */
+
+							var redMarker = L.ExtraMarkers.icon({
+								icon: 'fa-number',
+								number: 12,
+								markerColor: 'red',
+							  });
 
 						
-								layer.setIcon(L.AwesomeMarkers.icon(markerStyle));
+							//	layer.setIcon(L.AwesomeMarkers.icon(markerStyle));
+								layer.setIcon(redMarker);
 							}
 
 							if(feature.geometry.type == "LineString"){
