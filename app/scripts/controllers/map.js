@@ -32,15 +32,15 @@ mapModule.controller('MapCtrl', ["$scope", "leafletData", "$http", function ($sc
 			zoom: 14
 		},
 
-	/* 	maxbounds: {
+	 	maxbounds: {
 			southWest: {
-				lat: 46.63,
-				lng: 6.47
+				lat: 46.90, // -> haut bas
+				lng: 7 // gauche droite
 			},
 			northEast: {
-				lat: 46.85,
-				lng: 6.69
-			} */
+				lat: 46.4,
+				lng: 6.3
+			} 
 
 		},
 
